@@ -8,8 +8,6 @@ find_package(catkin REQUIRED
     moveit_core
     moveit_ros_planning
     moveit_ros_planning_interface
-    geometric_shapes
-    tf2_geometry_msgs
 )
 
 include_directories(${catkin_INCLUDE_DIRS})
