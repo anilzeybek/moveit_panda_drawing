@@ -12,5 +12,12 @@ find_package(catkin REQUIRED
 
 include_directories(${catkin_INCLUDE_DIRS})
 
+catkin_package(
+ CATKIN_DEPENDS 
+ moveit_core
+ moveit_ros_planning
+ moveit_ros_planning_interface
+)
+
 add_executable(main src/main.cpp)
 target_link_libraries(main ${catkin_LIBRARIES})

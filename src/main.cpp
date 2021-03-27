@@ -10,7 +10,7 @@
 class PandaRobot {
    private:
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-    moveit::planning_interface::MoveGroupInterface move_group;
+    moveit::planning_interface::MoveGroupInterface move_group_interface;
 
     void open_gripper(trajectory_msgs::JointTrajectory &posture) {
         posture.joint_names.resize(2);
@@ -60,11 +60,11 @@ class PandaRobot {
     }
 
    public:
-    PandaRobot() : move_group("panda_arm") {
-        ROS_INFO_STREAM("End-effector link: " << move_group.getEndEffectorLink());
+    PandaRobot() : move_group_interface("panda_arm") {
+        ROS_INFO_STREAM("End-effector link: " << move_group_interface.getEndEffectorLink());
 
         ros::WallDuration(1.0).sleep();
-        move_group.setPlanningTime(45.0);
+        move_group_interface.setPlanningTime(45.0);
     }
 
     void add_objects() {
@@ -113,8 +113,8 @@ class PandaRobot {
         open_gripper(grasps[0].grasp_posture);
         close_gripper(grasps[0].grasp_posture);
 
-        move_group.setSupportSurfaceName("table");
-        move_group.pick("pencil", grasps);
+        move_group_interface.setSupportSurfaceName("table");
+        move_group_interface.pick("pencil", grasps);
     }
 
     void draw_O() {
@@ -150,8 +150,8 @@ class PandaRobot {
         target_poses[4].position.z = 0.5;
 
         for (const auto &target : target_poses) {
-            move_group.setPoseTarget(target);
-            move_group.move();
+            move_group_interface.setPoseTarget(target);
+            move_group_interface.move();
         }
     }
 
@@ -169,8 +169,8 @@ class PandaRobot {
         place_location[0].pre_place_approach.desired_distance = 0.1;
 
         open_gripper(place_location[0].post_place_posture);
-        move_group.setSupportSurfaceName("table");
-        move_group.place("pencil", place_location);
+        move_group_interface.setSupportSurfaceName("table");
+        move_group_interface.place("pencil", place_location);
     }
 };
 
