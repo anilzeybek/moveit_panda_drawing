@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>panda_hw</name>
+  <name>moveit_panda_drawing</name>
   <version>0.0.0</version>
-  <description>The panda_hw package</description>
+  <description>The moveit_panda_drawing package</description>
 
   <maintainer email="anil@todo.todo">anil</maintainer>
   <license>BSD</license>
