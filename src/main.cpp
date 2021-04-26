@@ -12,7 +12,7 @@ class PandaRobot {
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
     moveit::planning_interface::MoveGroupInterface move_group_interface;
 
-    void open_gripper(trajectory_msgs::JointTrajectory &posture) {
+    static void open_gripper(trajectory_msgs::JointTrajectory &posture) {
         posture.joint_names.resize(2);
         posture.joint_names[0] = "panda_finger_joint1";
         posture.joint_names[1] = "panda_finger_joint2";
@@ -24,7 +24,7 @@ class PandaRobot {
         posture.points[0].time_from_start = ros::Duration(0.5);
     }
 
-    void close_gripper(trajectory_msgs::JointTrajectory &posture) {
+    static void close_gripper(trajectory_msgs::JointTrajectory &posture) {
         posture.joint_names.resize(2);
         posture.joint_names[0] = "panda_finger_joint1";
         posture.joint_names[1] = "panda_finger_joint2";
@@ -36,7 +36,7 @@ class PandaRobot {
         posture.points[0].time_from_start = ros::Duration(0.5);
     }
 
-    moveit_msgs::CollisionObject add_object(const std::string &name, const std::vector<double> &dimensions, const std::vector<double> &positions) {
+    static moveit_msgs::CollisionObject add_object(const std::string &name, const std::vector<double> &dimensions, const std::vector<double> &positions) {
         moveit_msgs::CollisionObject object;
 
         object.id = name;
