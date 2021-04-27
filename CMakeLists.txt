@@ -19,5 +19,8 @@ catkin_package(
  moveit_ros_planning_interface
 )
 
-add_executable(main src/main.cpp)
-target_link_libraries(main ${catkin_LIBRARIES})
+add_executable(draw_ros src/draw_rviz.cpp)
+add_executable(draw_gazebo src/draw_gazebo.cpp)
+
+target_link_libraries(draw_ros ${catkin_LIBRARIES})
+target_link_libraries(draw_gazebo ${catkin_LIBRARIES})
