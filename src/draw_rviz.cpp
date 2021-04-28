@@ -8,7 +8,7 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 class PandaRobot {
-   private:
+private:
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
     moveit::planning_interface::MoveGroupInterface move_group_interface;
 
@@ -36,7 +36,8 @@ class PandaRobot {
         posture.points[0].time_from_start = ros::Duration(0.5);
     }
 
-    static moveit_msgs::CollisionObject add_object(const std::string &name, const std::vector<double> &dimensions, const std::vector<double> &positions) {
+    static moveit_msgs::CollisionObject
+    add_object(const std::string &name, const std::vector<double> &dimensions, const std::vector<double> &positions) {
         moveit_msgs::CollisionObject object;
 
         object.id = name;
@@ -59,7 +60,7 @@ class PandaRobot {
         return object;
     }
 
-   public:
+public:
     PandaRobot() : move_group_interface("panda_arm") {
         ROS_INFO_STREAM("End-effector link: " << move_group_interface.getEndEffectorLink());
 
