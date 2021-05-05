@@ -107,8 +107,8 @@ public:
         for (const auto &i : move_group_interface.getJointNames())
             std::cout << i << std::endl;
 
-        auto pose = move_group_interface.getCurrentPose();
-        auto rpy = move_group_interface.getCurrentRPY();
+//        auto pose = move_group_interface.getCurrentPose();
+//        auto rpy = move_group_interface.getCurrentRPY();
 
         ros::WallDuration(1.0).sleep();
         move_group_interface.setPlanningTime(15.0);
@@ -141,32 +141,17 @@ public:
         geometry_msgs::Pose target_pose;
         tf2::Quaternion orientation;
         orientation.setRPY(1.64, 0.83, -3);
-
         target_pose.orientation = tf2::toMsg(orientation);
-        target_pose.position.x = 0;
-        target_pose.position.y = 0.5;
-        target_pose.position.z = 0.57;
 
-        move_group_interface.setPoseTarget(target_pose);
-        move_group_interface.move();
-        ros::WallDuration(1.0).sleep();
-
-        target_pose.position.x = 0;
-        target_pose.position.y = 0.545;
+        target_pose.position.x = 0.0076;
+        target_pose.position.y = 0.548;
         target_pose.position.z = 0.57;
         move_group_interface.setPoseTarget(target_pose);
         move_group_interface.move();
         ros::WallDuration(1.0).sleep();
 
-        close_gripper();
-
-        target_pose.position.x = 0;
-        target_pose.position.y = 0.545;
-        target_pose.position.z = 0.57;
-        move_group_interface.setPoseTarget(target_pose);
-        move_group_interface.move();
-        ros::WallDuration(1.0).sleep();
         move_group_interface.rememberJointValues("pencil_pose");
+        close_gripper();
 
         auto initial_joints = move_group_interface.getRememberedJointValues().at("initial");
         move_group_interface.setJointValueTarget(initial_joints);
