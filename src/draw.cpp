@@ -18,20 +18,11 @@ private:
 
     void open_gripper() {
         trajectory_msgs::JointTrajectory msg;
-        msg.header.seq = 1;
-        msg.header.stamp.sec = 0;
-        msg.header.stamp.nsec = 0;
-        msg.header.frame_id = "";
-
         msg.joint_names = {"panda_finger_joint1", "panda_finger_joint2"};
 
         trajectory_msgs::JointTrajectoryPoint point;
         point.positions = {0.2, 0.2};
-        point.velocities = {0.1, 0.1};
-        point.accelerations = {0.1, 0.1};
-        point.effort = {0.1, 0.1};
         point.time_from_start.sec = 1;
-        point.time_from_start.nsec = 0;
         msg.points.push_back(point);
 
         pub.publish(msg);
@@ -40,20 +31,12 @@ private:
 
     void close_gripper() {
         trajectory_msgs::JointTrajectory msg;
-        msg.header.seq = 1;
-        msg.header.stamp.sec = 0;
-        msg.header.stamp.nsec = 0;
-        msg.header.frame_id = "";
-
         msg.joint_names = {"panda_finger_joint1", "panda_finger_joint2"};
 
         trajectory_msgs::JointTrajectoryPoint point;
-        point.positions = {0, 0};
-        point.velocities = {0.1, 0.1};
-        point.accelerations = {0.1, 0.1};
-        point.effort = {0.1, 0.1};
+        point.positions = {0.001, 0.001}; // 0.0025
+
         point.time_from_start.sec = 1;
-        point.time_from_start.nsec = 0;
         msg.points.push_back(point);
 
         pub.publish(msg);
@@ -143,15 +126,16 @@ public:
         orientation.setRPY(1.64, 0.83, -3);
         target_pose.orientation = tf2::toMsg(orientation);
 
-        target_pose.position.x = 0.0076;
-        target_pose.position.y = 0.548;
-        target_pose.position.z = 0.57;
+        target_pose.position.x = 0;
+        target_pose.position.y = 0.541;
+        target_pose.position.z = 0.568;
         move_group_interface.setPoseTarget(target_pose);
         move_group_interface.move();
         ros::WallDuration(1.0).sleep();
 
         move_group_interface.rememberJointValues("pencil_pose");
         close_gripper();
+        ros::WallDuration(2.0).sleep();
 
         auto initial_joints = move_group_interface.getRememberedJointValues().at("initial");
         move_group_interface.setJointValueTarget(initial_joints);
