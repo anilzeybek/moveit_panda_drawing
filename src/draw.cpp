@@ -14,7 +14,6 @@ private:
     moveit::planning_interface::MoveGroupInterface arm;
     moveit::planning_interface::MoveGroupInterface hand;
 
-    std::vector<double> pencil_positions = {0, 0.65, 0.55};
 
     void open_gripper() {
         std::vector<double> open_gripper_joints = {0.04, 0.04};
@@ -78,7 +77,8 @@ public:
         collision_objects.push_back(add_object("table", 0, dimensions, positions));
 
         dimensions = {0.10, 0.0035};
-        collision_objects.push_back(add_object("pencil", 1, dimensions, pencil_positions));
+        positions = {0, 0.65, 0.55};
+        collision_objects.push_back(add_object("pencil", 1, dimensions, positions));
 
         dimensions = {1, 1, 1};
         positions = {0, -1, 0.5};
@@ -94,9 +94,11 @@ public:
         tf2::Quaternion orientation;
         orientation.setRPY(M_PI_2, M_PI_4, -M_PI);
         target_pose.orientation = tf2::toMsg(orientation);
-        target_pose.position.x = pencil_positions[0];
-        target_pose.position.y = pencil_positions[1] - 0.10;
-        target_pose.position.z = pencil_positions[2];
+        auto pencil_pose = planning_scene_interface.getObjectPoses({"pencil"}).at("pencil");
+
+        target_pose.position.x = pencil_pose.position.x;
+        target_pose.position.y = pencil_pose.position.y - 0.10;
+        target_pose.position.z = pencil_pose.position.z;
         arm.setPoseTarget(target_pose);
         arm.move();
 
@@ -152,9 +154,9 @@ public:
         tf2::Quaternion orientation;
         orientation.setRPY(M_PI_2, M_PI_4, -M_PI);
         target_pose.orientation = tf2::toMsg(orientation);
-        target_pose.position.x = pencil_positions[0];
-        target_pose.position.y = pencil_positions[1] - 0.10;
-        target_pose.position.z = pencil_positions[2] + 0.05;
+        target_pose.position.x = 0;
+        target_pose.position.y = 0.55;
+        target_pose.position.z = 0.60;
         arm.setPoseTarget(target_pose);
         arm.move();
 
