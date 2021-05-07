@@ -11,36 +11,19 @@
 class PandaRobot {
 private:
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
-    std::string planning_group = "panda_arm";
-    moveit::planning_interface::MoveGroupInterface move_group_interface;
-    ros::NodeHandle n;
-    ros::Publisher pub;
+    moveit::planning_interface::MoveGroupInterface arm;
+    moveit::planning_interface::MoveGroupInterface hand;
 
     void open_gripper() {
-        trajectory_msgs::JointTrajectory msg;
-        msg.joint_names = {"panda_finger_joint1", "panda_finger_joint2"};
-
-        trajectory_msgs::JointTrajectoryPoint point;
-        point.positions = {0.2, 0.2};
-        point.time_from_start.sec = 1;
-        msg.points.push_back(point);
-
-        pub.publish(msg);
-        ros::WallDuration(1.0).sleep();
+        std::vector<double> open_gripper_joints = {0.04, 0.04};
+        hand.setJointValueTarget(open_gripper_joints);
+        hand.move();
     }
 
     void close_gripper() {
-        trajectory_msgs::JointTrajectory msg;
-        msg.joint_names = {"panda_finger_joint1", "panda_finger_joint2"};
-
-        trajectory_msgs::JointTrajectoryPoint point;
-        point.positions = {0.001, 0.001}; // 0.0025
-
-        point.time_from_start.sec = 1;
-        msg.points.push_back(point);
-
-        pub.publish(msg);
-        ros::WallDuration(1.0).sleep();
+        std::vector<double> close_gripper_joints = {0, 0};
+        hand.setJointValueTarget(close_gripper_joints);
+        hand.move();
     }
 
     static moveit_msgs::CollisionObject
@@ -77,26 +60,16 @@ private:
     }
 
 public:
-    PandaRobot() : move_group_interface(planning_group) {
-        pub = n.advertise<trajectory_msgs::JointTrajectory>("/panda_hand_controller/command", 10, true);
-
-        std::cout << "Joint model group names:" << std::endl;
-        for (const auto &i : move_group_interface.getJointModelGroupNames())
-            std::cout << i << std::endl;
-
-        std::cout << "Planning group in-use: " << planning_group << std::endl;
-        std::cout << "End-effector link: " << move_group_interface.getEndEffectorLink() << std::endl;
+    PandaRobot() : arm("panda_arm"), hand("hand") {
+        std::cout << "panda_arm end-effector link: " << hand.getEndEffectorLink() << std::endl;
         std::cout << "Joint names:" << std::endl;
-        for (const auto &i : move_group_interface.getJointNames())
+        for (const auto &i : arm.getJointNames())
             std::cout << i << std::endl;
-
-//        auto pose = move_group_interface.getCurrentPose();
-//        auto rpy = move_group_interface.getCurrentRPY();
 
         ros::WallDuration(1.0).sleep();
-        move_group_interface.setPlanningTime(15.0);
+        arm.setPlanningTime(15.0);
 
-        move_group_interface.rememberJointValues("initial");
+        arm.rememberJointValues("initial");
     }
 
     void add_objects() {
@@ -123,23 +96,19 @@ public:
 
         geometry_msgs::Pose target_pose;
         tf2::Quaternion orientation;
-        orientation.setRPY(1.64, 0.83, -3);
+        orientation.setRPY(M_PI_2, M_PI_4, -M_PI);
         target_pose.orientation = tf2::toMsg(orientation);
-
         target_pose.position.x = 0;
-        target_pose.position.y = 0.541;
-        target_pose.position.z = 0.568;
-        move_group_interface.setPoseTarget(target_pose);
-        move_group_interface.move();
-        ros::WallDuration(1.0).sleep();
+        target_pose.position.y = 0.54;
+        target_pose.position.z = 0.57;
+        arm.setPoseTarget(target_pose);
+        arm.move();
 
-        move_group_interface.rememberJointValues("pencil_pose");
+        hand.attachObject("pencil", "panda_hand", {"panda_leftfinger", "panda_rightfinger"});
         close_gripper();
-        ros::WallDuration(2.0).sleep();
 
-        auto initial_joints = move_group_interface.getRememberedJointValues().at("initial");
-        move_group_interface.setJointValueTarget(initial_joints);
-        move_group_interface.move();
+        arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
+        arm.move();
     }
 
     void draw_O() {
@@ -175,8 +144,8 @@ public:
         target_poses[4].position.z = 0.5;
 
         for (const auto &target : target_poses) {
-            move_group_interface.setPoseTarget(target);
-            move_group_interface.move();
+            arm.setPoseTarget(target);
+            arm.move();
         }
     }
 
