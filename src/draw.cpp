@@ -14,6 +14,8 @@ private:
     moveit::planning_interface::MoveGroupInterface arm;
     moveit::planning_interface::MoveGroupInterface hand;
 
+    std::vector<double> pencil_positions = {0, 0.65, 0.55};
+
     void open_gripper() {
         std::vector<double> open_gripper_joints = {0.04, 0.04};
         hand.setJointValueTarget(open_gripper_joints);
@@ -61,14 +63,9 @@ private:
 
 public:
     PandaRobot() : arm("panda_arm"), hand("hand") {
-        std::cout << "panda_arm end-effector link: " << hand.getEndEffectorLink() << std::endl;
-        std::cout << "Joint names:" << std::endl;
-        for (const auto &i : arm.getJointNames())
-            std::cout << i << std::endl;
+        std::cout << "panda_arm end-effector link: " << arm.getEndEffectorLink() << std::endl;
 
-        ros::WallDuration(1.0).sleep();
-        arm.setPlanningTime(15.0);
-
+        arm.setPlanningTime(5.0);
         arm.rememberJointValues("initial");
     }
 
@@ -81,8 +78,7 @@ public:
         collision_objects.push_back(add_object("table", 0, dimensions, positions));
 
         dimensions = {0.10, 0.0035};
-        positions = {0, 0.65, 0.55};
-        collision_objects.push_back(add_object("pencil", 1, dimensions, positions));
+        collision_objects.push_back(add_object("pencil", 1, dimensions, pencil_positions));
 
         dimensions = {1, 1, 1};
         positions = {0, -1, 0.5};
@@ -98,15 +94,17 @@ public:
         tf2::Quaternion orientation;
         orientation.setRPY(M_PI_2, M_PI_4, -M_PI);
         target_pose.orientation = tf2::toMsg(orientation);
-        target_pose.position.x = 0;
-        target_pose.position.y = 0.54;
-        target_pose.position.z = 0.57;
+        target_pose.position.x = pencil_positions[0];
+        target_pose.position.y = pencil_positions[1] - 0.10;
+        target_pose.position.z = pencil_positions[2];
         arm.setPoseTarget(target_pose);
         arm.move();
 
+        arm.setSupportSurfaceName("table");
         hand.attachObject("pencil", "panda_hand", {"panda_leftfinger", "panda_rightfinger"});
         close_gripper();
 
+        arm.rememberJointValues("pencil_place");
         arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
         arm.move();
     }
@@ -150,6 +148,21 @@ public:
     }
 
     void drop_pencil() {
+        geometry_msgs::Pose target_pose;
+        tf2::Quaternion orientation;
+        orientation.setRPY(M_PI_2, M_PI_4, -M_PI);
+        target_pose.orientation = tf2::toMsg(orientation);
+        target_pose.position.x = pencil_positions[0];
+        target_pose.position.y = pencil_positions[1] - 0.10;
+        target_pose.position.z = pencil_positions[2] + 0.05;
+        arm.setPoseTarget(target_pose);
+        arm.move();
+
+        open_gripper();
+        hand.detachObject("pencil");
+
+        arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
+        arm.move();
     }
 };
 
@@ -162,7 +175,7 @@ int main(int argc, char **argv) {
     panda.add_objects();
     panda.take_pencil();
 //    panda.draw_O();
-//    panda.drop_pencil();
+    panda.drop_pencil();
 
     return 0;
 }
