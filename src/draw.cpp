@@ -64,7 +64,10 @@ public:
     PandaRobot() : arm("panda_arm"), hand("hand") {
         std::cout << "panda_arm end-effector link: " << arm.getEndEffectorLink() << std::endl;
 
-        arm.setPlanningTime(5.0);
+//        auto pose = arm.getCurrentPose();
+//        auto rpy = arm.getCurrentRPY();
+
+        arm.setPlanningTime(3.0);
         arm.rememberJointValues("initial");
     }
 
@@ -87,7 +90,7 @@ public:
         planning_scene_interface.applyCollisionObjects(collision_objects);
     }
 
-    void take_pencil() {
+    void pick_pencil() {
         open_gripper();
 
         geometry_msgs::Pose target_pose;
@@ -98,7 +101,7 @@ public:
 
         target_pose.position.x = pencil_pose.position.x;
         target_pose.position.y = pencil_pose.position.y - 0.10;
-        target_pose.position.z = pencil_pose.position.z;
+        target_pose.position.z = pencil_pose.position.z + 0.04;
         arm.setPoseTarget(target_pose);
         arm.move();
 
@@ -113,43 +116,66 @@ public:
 
     void draw_O() {
         std::vector<geometry_msgs::Pose> target_poses;
-        target_poses.resize(5);
+        target_poses.resize(9);
 
         tf2::Quaternion orientation;
-        orientation.setRPY(0, 0, -0.36);
+        orientation.setRPY(M_PI, 0, -M_PI_4 * 3);
 
         target_poses[0].orientation = tf2::toMsg(orientation);
-        target_poses[0].position.x = -0.3;
-        target_poses[0].position.y = 0.45;
-        target_poses[0].position.z = 0.5;
+        target_poses[0].position.x = 0.4;
+        target_poses[0].position.y = -0.4;
+        target_poses[0].position.z = 0.6;
 
         target_poses[1].orientation = tf2::toMsg(orientation);
-        target_poses[1].position.x = 0;
-        target_poses[1].position.y = 0.45;
+        target_poses[1].position.x = 0.2;
+        target_poses[1].position.y = -0.4;
         target_poses[1].position.z = 0.7;
 
         target_poses[2].orientation = tf2::toMsg(orientation);
-        target_poses[2].position.x = 0.3;
-        target_poses[2].position.y = 0.45;
-        target_poses[2].position.z = 0.5;
+        target_poses[2].position.x = 0;
+        target_poses[2].position.y = -0.4;
+        target_poses[2].position.z = 0.8;
 
         target_poses[3].orientation = tf2::toMsg(orientation);
-        target_poses[3].position.x = 0;
-        target_poses[3].position.y = 0.45;
-        target_poses[3].position.z = 0.3;
+        target_poses[3].position.x = -0.2;
+        target_poses[3].position.y = -0.4;
+        target_poses[3].position.z = 0.7;
 
         target_poses[4].orientation = tf2::toMsg(orientation);
-        target_poses[4].position.x = -0.3;
-        target_poses[4].position.y = 0.45;
-        target_poses[4].position.z = 0.5;
+        target_poses[4].position.x = -0.4;
+        target_poses[4].position.y = -0.4;
+        target_poses[4].position.z = 0.6;
+
+        target_poses[5].orientation = tf2::toMsg(orientation);
+        target_poses[5].position.x = -0.2;
+        target_poses[5].position.y = -0.4;
+        target_poses[5].position.z = 0.5;
+
+        target_poses[6].orientation = tf2::toMsg(orientation);
+        target_poses[6].position.x = 0;
+        target_poses[6].position.y = -0.4;
+        target_poses[6].position.z = 0.4;
+
+        target_poses[7].orientation = tf2::toMsg(orientation);
+        target_poses[7].position.x = 0.2;
+        target_poses[7].position.y = -0.4;
+        target_poses[7].position.z = 0.5;
+
+        target_poses[8].orientation = tf2::toMsg(orientation);
+        target_poses[8].position.x = 0.4;
+        target_poses[8].position.y = -0.4;
+        target_poses[8].position.z = 0.6;
 
         for (const auto &target : target_poses) {
             arm.setPoseTarget(target);
             arm.move();
         }
+
+        arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
+        arm.move();
     }
 
-    void drop_pencil() {
+    void place_pencil() {
         geometry_msgs::Pose target_pose;
         tf2::Quaternion orientation;
         orientation.setRPY(M_PI_2, M_PI_4, -M_PI);
@@ -165,6 +191,8 @@ public:
 
         arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
         arm.move();
+
+        close_gripper();
     }
 };
 
@@ -175,9 +203,9 @@ int main(int argc, char **argv) {
 
     PandaRobot panda;
     panda.add_objects();
-    panda.take_pencil();
-//    panda.draw_O();
-    panda.drop_pencil();
+    panda.pick_pencil();
+    panda.draw_O();
+    panda.place_pencil();
 
     return 0;
 }
