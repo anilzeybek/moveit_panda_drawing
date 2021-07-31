@@ -1,4 +1,5 @@
 #include <ros/ros.h>
+#include "letter_poses.h"
 
 // MoveIt libs
 #include <moveit/move_group_interface/move_group_interface.h>
@@ -62,13 +63,9 @@ private:
 
 public:
     PandaRobot() : arm("panda_arm"), hand("hand") {
-        std::cout << "panda_arm end-effector link: " << arm.getEndEffectorLink() << std::endl;
-
-        // auto pose = arm.getCurrentPose();
-        // auto rpy = arm.getCurrentRPY();
-
         arm.setMaxVelocityScalingFactor(1);
         arm.setMaxAccelerationScalingFactor(1);
+
         arm.setPlanningTime(3.0);
         arm.rememberJointValues("ready");
     }
@@ -112,62 +109,10 @@ public:
         close_gripper();
 
         this->initial_pencil_pose = arm.getCurrentPose();
-        // arm.setNamedTarget("ready");
-        // arm.move();
     }
 
-    void draw_O() {
-        std::vector<geometry_msgs::Pose> target_poses;
-        target_poses.resize(9);
-
-        tf2::Quaternion orientation;
-        orientation.setRPY(M_PI, 0, -M_PI_4 * 3);
-
-        target_poses[0].orientation = tf2::toMsg(orientation);
-        target_poses[0].position.x = 0.4;
-        target_poses[0].position.y = -0.4;
-        target_poses[0].position.z = 0.6;
-
-        target_poses[1].orientation = tf2::toMsg(orientation);
-        target_poses[1].position.x = 0.2;
-        target_poses[1].position.y = -0.4;
-        target_poses[1].position.z = 0.7;
-
-        target_poses[2].orientation = tf2::toMsg(orientation);
-        target_poses[2].position.x = 0;
-        target_poses[2].position.y = -0.4;
-        target_poses[2].position.z = 0.8;
-
-        target_poses[3].orientation = tf2::toMsg(orientation);
-        target_poses[3].position.x = -0.2;
-        target_poses[3].position.y = -0.4;
-        target_poses[3].position.z = 0.7;
-
-        target_poses[4].orientation = tf2::toMsg(orientation);
-        target_poses[4].position.x = -0.4;
-        target_poses[4].position.y = -0.4;
-        target_poses[4].position.z = 0.6;
-
-        target_poses[5].orientation = tf2::toMsg(orientation);
-        target_poses[5].position.x = -0.2;
-        target_poses[5].position.y = -0.4;
-        target_poses[5].position.z = 0.5;
-
-        target_poses[6].orientation = tf2::toMsg(orientation);
-        target_poses[6].position.x = 0;
-        target_poses[6].position.y = -0.4;
-        target_poses[6].position.z = 0.4;
-
-        target_poses[7].orientation = tf2::toMsg(orientation);
-        target_poses[7].position.x = 0.2;
-        target_poses[7].position.y = -0.4;
-        target_poses[7].position.z = 0.5;
-
-        target_poses[8].orientation = tf2::toMsg(orientation);
-        target_poses[8].position.x = 0.4;
-        target_poses[8].position.y = -0.4;
-        target_poses[8].position.z = 0.6;
-
+    void draw(char letter) {
+        auto target_poses = get_poses(letter);
         for (const auto &target : target_poses) {
             arm.setPoseTarget(target);
             arm.move();
@@ -198,7 +143,7 @@ int main(int argc, char **argv) {
     PandaRobot panda;
     panda.add_objects();
     panda.pick_pencil();
-    panda.draw_O();
+    panda.draw('O');
     panda.place_pencil();
 
     return 0;
