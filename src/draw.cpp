@@ -14,7 +14,6 @@ private:
     moveit::planning_interface::MoveGroupInterface arm;
     moveit::planning_interface::MoveGroupInterface hand;
 
-
     void open_gripper() {
         std::vector<double> open_gripper_joints = {0.04, 0.04};
         hand.setJointValueTarget(open_gripper_joints);
@@ -64,9 +63,11 @@ public:
     PandaRobot() : arm("panda_arm"), hand("hand") {
         std::cout << "panda_arm end-effector link: " << arm.getEndEffectorLink() << std::endl;
 
-//        auto pose = arm.getCurrentPose();
-//        auto rpy = arm.getCurrentRPY();
+        // auto pose = arm.getCurrentPose();
+        // auto rpy = arm.getCurrentRPY();
 
+        arm.setMaxVelocityScalingFactor(0.75);
+        arm.setMaxAccelerationScalingFactor(0.75);
         arm.setPlanningTime(3.0);
         arm.rememberJointValues("initial");
     }
