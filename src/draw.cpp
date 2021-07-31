@@ -13,6 +13,7 @@ private:
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
     moveit::planning_interface::MoveGroupInterface arm;
     moveit::planning_interface::MoveGroupInterface hand;
+    geometry_msgs::PoseStamped initial_pencil_pose;
 
     void open_gripper() {
         std::vector<double> open_gripper_joints = {0.04, 0.04};
@@ -69,7 +70,7 @@ public:
         arm.setMaxVelocityScalingFactor(0.75);
         arm.setMaxAccelerationScalingFactor(0.75);
         arm.setPlanningTime(3.0);
-        arm.rememberJointValues("initial");
+        arm.rememberJointValues("ready");
     }
 
     void add_objects() {
@@ -110,8 +111,8 @@ public:
         hand.attachObject("pencil", "panda_hand", {"panda_leftfinger", "panda_rightfinger"});
         close_gripper();
 
-        arm.rememberJointValues("pencil_place");
-        arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
+        this->initial_pencil_pose = arm.getCurrentPose();
+        arm.setNamedTarget("ready");
         arm.move();
     }
 
@@ -172,25 +173,19 @@ public:
             arm.move();
         }
 
-        arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
+        arm.setNamedTarget("ready");
         arm.move();
     }
 
     void place_pencil() {
-        geometry_msgs::Pose target_pose;
-        tf2::Quaternion orientation;
-        orientation.setRPY(M_PI_2, M_PI_4, -M_PI);
-        target_pose.orientation = tf2::toMsg(orientation);
-        target_pose.position.x = 0;
-        target_pose.position.y = 0.55;
-        target_pose.position.z = 0.60;
-        arm.setPoseTarget(target_pose);
+        this->initial_pencil_pose.pose.position.z += 0.01;
+        arm.setPoseTarget(this->initial_pencil_pose);
         arm.move();
-
+        
         open_gripper();
         hand.detachObject("pencil");
 
-        arm.setJointValueTarget(arm.getRememberedJointValues().at("initial"));
+        arm.setNamedTarget("ready");
         arm.move();
 
         close_gripper();
