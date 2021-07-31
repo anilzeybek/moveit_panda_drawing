@@ -112,7 +112,7 @@ public:
     }
 
     void draw(char letter) {
-        auto target_poses = get_poses(letter);
+        auto target_poses = LetterPoses::get_poses(letter);
         for (const auto &target : target_poses) {
             arm.setPoseTarget(target);
             arm.move();

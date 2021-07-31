@@ -1,137 +1,121 @@
 #include "letter_poses.h"
 #include <ctype.h>
 
-std::vector<geometry_msgs::Pose> poses_A() {
+const float point_matrix[5][5][3] = {
+    {{0.4, -0.4, 0.8}, {0.2, -0.4, 0.8}, {0, -0.4, 0.8}, {-0.2, -0.4, 0.8}, {-0.4, -0.4, 0.8}},
+    {{0.4, -0.4, 0.7}, {0.2, -0.4, 0.7}, {0, -0.4, 0.7}, {-0.2, -0.4, 0.7}, {-0.4, -0.4, 0.7}},
+    {{0.4, -0.4, 0.6}, {0.2, -0.4, 0.6}, {0, -0.4, 0.6}, {-0.2, -0.4, 0.6}, {-0.4, -0.4, 0.6}},
+    {{0.4, -0.4, 0.5}, {0.2, -0.4, 0.5}, {0, -0.4, 0.5}, {-0.2, -0.4, 0.5}, {-0.4, -0.4, 0.5}},
+    {{0.4, -0.4, 0.4}, {0.2, -0.4, 0.4}, {0, -0.4, 0.4}, {-0.2, -0.4, 0.4}, {-0.4, -0.4, 0.4}},
+};
+
+geometry_msgs::Point LetterPoses::get_position_at(int i1, int i2) {
+    geometry_msgs::Point p;
+    p.x = point_matrix[i1][i2][0];
+    p.y = point_matrix[i1][i2][1];
+    p.z = point_matrix[i1][i2][2];
+
+    return p;
 }
 
-std::vector<geometry_msgs::Pose> poses_B() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_A() {
 }
 
-std::vector<geometry_msgs::Pose> poses_C() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_B() {
 }
 
-std::vector<geometry_msgs::Pose> poses_D() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_C() {
 }
 
-std::vector<geometry_msgs::Pose> poses_E() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_D() {
 }
 
-std::vector<geometry_msgs::Pose> poses_F() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_E() {
 }
 
-std::vector<geometry_msgs::Pose> poses_G() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_F() {
 }
 
-std::vector<geometry_msgs::Pose> poses_H() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_G() {
 }
 
-std::vector<geometry_msgs::Pose> poses_I() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_H() {
 }
 
-std::vector<geometry_msgs::Pose> poses_J() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_I() {
 }
 
-std::vector<geometry_msgs::Pose> poses_K() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_J() {
 }
 
-std::vector<geometry_msgs::Pose> poses_L() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_K() {
 }
 
-std::vector<geometry_msgs::Pose> poses_M() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_L() {
 }
 
-std::vector<geometry_msgs::Pose> poses_N() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_M() {
 }
 
-std::vector<geometry_msgs::Pose> poses_O() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_N() {
+}
+
+std::vector<geometry_msgs::Pose> LetterPoses::poses_O() {
     std::vector<geometry_msgs::Pose> target_poses;
     target_poses.resize(9);
 
-    tf2::Quaternion orientation;
-    orientation.setRPY(M_PI, 0, -M_PI_4 * 3);
+    tf2::Quaternion draw_orientation;
+    draw_orientation.setRPY(M_PI, 0, -M_PI_4 * 3);
+    for (auto &target : target_poses)
+        target.orientation = tf2::toMsg(draw_orientation);
 
-    target_poses[0].orientation = tf2::toMsg(orientation);
-    target_poses[0].position.x = 0.4;
-    target_poses[0].position.y = -0.4;
-    target_poses[0].position.z = 0.6;
-
-    target_poses[1].orientation = tf2::toMsg(orientation);
-    target_poses[1].position.x = 0.2;
-    target_poses[1].position.y = -0.4;
-    target_poses[1].position.z = 0.7;
-
-    target_poses[2].orientation = tf2::toMsg(orientation);
-    target_poses[2].position.x = 0;
-    target_poses[2].position.y = -0.4;
-    target_poses[2].position.z = 0.8;
-
-    target_poses[3].orientation = tf2::toMsg(orientation);
-    target_poses[3].position.x = -0.2;
-    target_poses[3].position.y = -0.4;
-    target_poses[3].position.z = 0.7;
-
-    target_poses[4].orientation = tf2::toMsg(orientation);
-    target_poses[4].position.x = -0.4;
-    target_poses[4].position.y = -0.4;
-    target_poses[4].position.z = 0.6;
-
-    target_poses[5].orientation = tf2::toMsg(orientation);
-    target_poses[5].position.x = -0.2;
-    target_poses[5].position.y = -0.4;
-    target_poses[5].position.z = 0.5;
-
-    target_poses[6].orientation = tf2::toMsg(orientation);
-    target_poses[6].position.x = 0;
-    target_poses[6].position.y = -0.4;
-    target_poses[6].position.z = 0.4;
-
-    target_poses[7].orientation = tf2::toMsg(orientation);
-    target_poses[7].position.x = 0.2;
-    target_poses[7].position.y = -0.4;
-    target_poses[7].position.z = 0.5;
-
-    target_poses[8].orientation = tf2::toMsg(orientation);
-    target_poses[8].position.x = 0.4;
-    target_poses[8].position.y = -0.4;
-    target_poses[8].position.z = 0.6;
+    target_poses[0].position = get_position_at(2, 0);
+    target_poses[1].position = get_position_at(1, 1);
+    target_poses[2].position = get_position_at(0, 2);
+    target_poses[3].position = get_position_at(1, 3);
+    target_poses[4].position = get_position_at(2, 4);
+    target_poses[5].position = get_position_at(3, 3);
+    target_poses[6].position = get_position_at(4, 2);
+    target_poses[7].position = get_position_at(3, 1);
+    target_poses[8].position = get_position_at(2, 0);
 
     return target_poses;
 }
 
-std::vector<geometry_msgs::Pose> poses_P() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_P() {
 }
 
-std::vector<geometry_msgs::Pose> poses_Q() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_Q() {
 }
 
-std::vector<geometry_msgs::Pose> poses_R() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_R() {
 }
 
-std::vector<geometry_msgs::Pose> poses_S() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_S() {
 }
 
-std::vector<geometry_msgs::Pose> poses_T() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_T() {
 }
 
-std::vector<geometry_msgs::Pose> poses_U() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_U() {
 }
 
-std::vector<geometry_msgs::Pose> poses_V() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_V() {
 }
 
-std::vector<geometry_msgs::Pose> poses_W() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_W() {
 }
 
-std::vector<geometry_msgs::Pose> poses_X() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_X() {
 }
 
-std::vector<geometry_msgs::Pose> poses_Y() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_Y() {
 }
 
-std::vector<geometry_msgs::Pose> poses_Z() {
+std::vector<geometry_msgs::Pose> LetterPoses::poses_Z() {
 }
 
-std::vector<geometry_msgs::Pose> get_poses(char letter) {
+std::vector<geometry_msgs::Pose> LetterPoses::get_poses(char letter) {
     letter = toupper(letter);
 
     switch (letter) {
