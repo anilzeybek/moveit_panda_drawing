@@ -67,8 +67,8 @@ public:
         // auto pose = arm.getCurrentPose();
         // auto rpy = arm.getCurrentRPY();
 
-        arm.setMaxVelocityScalingFactor(0.75);
-        arm.setMaxAccelerationScalingFactor(0.75);
+        arm.setMaxVelocityScalingFactor(1);
+        arm.setMaxAccelerationScalingFactor(1);
         arm.setPlanningTime(3.0);
         arm.rememberJointValues("ready");
     }
@@ -112,8 +112,8 @@ public:
         close_gripper();
 
         this->initial_pencil_pose = arm.getCurrentPose();
-        arm.setNamedTarget("ready");
-        arm.move();
+        // arm.setNamedTarget("ready");
+        // arm.move();
     }
 
     void draw_O() {
@@ -172,16 +172,14 @@ public:
             arm.setPoseTarget(target);
             arm.move();
         }
-
-        arm.setNamedTarget("ready");
-        arm.move();
     }
 
     void place_pencil() {
         this->initial_pencil_pose.pose.position.z += 0.01;
         arm.setPoseTarget(this->initial_pencil_pose);
         arm.move();
-        
+
+        ros::Duration(0.5).sleep();
         open_gripper();
         hand.detachObject("pencil");
 
