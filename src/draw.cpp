@@ -1,5 +1,5 @@
-#include <ros/ros.h>
 #include "letter_poses.h"
+#include <ros/ros.h>
 
 // MoveIt libs
 #include <moveit/move_group_interface/move_group_interface.h>
@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     PandaRobot panda;
     panda.add_objects();
     panda.pick_pencil();
-    panda.draw('O');
+    panda.draw('A');
     panda.place_pencil();
 
     return 0;
