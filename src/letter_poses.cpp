@@ -204,63 +204,243 @@ std::vector<geometry_msgs::Pose> LetterPoses::poses_K() {
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_L() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(4);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(4, 0);
+    target_poses[3].position = get_position_at(4, 1);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_M() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(7);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(4, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(0, 0);
+    target_poses[3].position = get_position_at(1, 1);
+    target_poses[4].position = get_position_at(0, 2);
+    target_poses[5].position = get_position_at(2, 2);
+    target_poses[6].position = get_position_at(4, 2);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_N() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(6);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(4, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(0, 0);
+    target_poses[3].position = get_position_at(0, 1);
+    target_poses[4].position = get_position_at(2, 1);
+    target_poses[5].position = get_position_at(4, 1);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_O() {
     std::vector<geometry_msgs::Pose> target_poses;
-    target_poses.resize(9);
+    target_poses.resize(7);
 
     set_target_orientation(target_poses);
-    target_poses[0].position = get_position_at(2, 0);
-    target_poses[1].position = get_position_at(1, 1);
-    target_poses[2].position = get_position_at(0, 2);
-    target_poses[3].position = get_position_at(1, 3);
-    target_poses[4].position = get_position_at(2, 4);
-    target_poses[5].position = get_position_at(3, 3);
-    target_poses[6].position = get_position_at(4, 2);
-    target_poses[7].position = get_position_at(3, 1);
-    target_poses[8].position = get_position_at(2, 0);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(0, 1);
+    target_poses[2].position = get_position_at(2, 1);
+    target_poses[3].position = get_position_at(4, 1);
+    target_poses[4].position = get_position_at(4, 0);
+    target_poses[5].position = get_position_at(2, 0);
+    target_poses[6].position = get_position_at(0, 0);
 
     return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_P() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(6);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(4, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(0, 0);
+    target_poses[3].position = get_position_at(0, 1);
+    target_poses[4].position = get_position_at(2, 1);
+    target_poses[5].position = get_position_at(2, 0);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_Q() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(9);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(0, 1);
+    target_poses[2].position = get_position_at(2, 1);
+    target_poses[3].position = get_position_at(3, 1);
+    target_poses[4].position = get_position_at(4, 2);
+    target_poses[5].position = get_position_at(3, 1);
+    target_poses[6].position = get_position_at(3, 0);
+    target_poses[7].position = get_position_at(2, 0);
+    target_poses[8].position = get_position_at(0, 0);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_R() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(7);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(4, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(0, 0);
+    target_poses[3].position = get_position_at(1, 1);
+    target_poses[4].position = get_position_at(2, 0);
+    target_poses[5].position = get_position_at(3, 1);
+    target_poses[6].position = get_position_at(4, 1);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_S() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(6);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 1);
+    target_poses[1].position = get_position_at(0, 0);
+    target_poses[2].position = get_position_at(2, 0);
+    target_poses[3].position = get_position_at(2, 1);
+    target_poses[4].position = get_position_at(4, 1);
+    target_poses[5].position = get_position_at(4, 0);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_T() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(6);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(0, 1);
+    target_poses[2].position = get_position_at(0, 2);
+    target_poses[3].position = get_position_at(0, 1);
+    target_poses[4].position = get_position_at(2, 1);
+    target_poses[5].position = get_position_at(4, 1);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_U() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(6);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(4, 0);
+    target_poses[3].position = get_position_at(4, 1);
+    target_poses[4].position = get_position_at(2, 1);
+    target_poses[5].position = get_position_at(0, 1);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_V() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(7);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(3, 0);
+    target_poses[3].position = get_position_at(4, 1);
+    target_poses[4].position = get_position_at(3, 2);
+    target_poses[5].position = get_position_at(2, 2);
+    target_poses[6].position = get_position_at(0, 2);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_W() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(9);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(2, 0);
+    target_poses[2].position = get_position_at(3, 0);
+    target_poses[3].position = get_position_at(4, 1);
+    target_poses[4].position = get_position_at(3, 2);
+    target_poses[5].position = get_position_at(4, 3);
+    target_poses[6].position = get_position_at(3, 4);
+    target_poses[7].position = get_position_at(2, 4);
+    target_poses[8].position = get_position_at(0, 4);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_X() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(10);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(1, 1);
+    target_poses[2].position = get_position_at(2, 2);
+    target_poses[3].position = get_position_at(3, 3);
+    target_poses[4].position = get_position_at(4, 4);
+    target_poses[5].position = get_position_at(0, 4);
+    target_poses[6].position = get_position_at(1, 3);
+    target_poses[7].position = get_position_at(2, 2);
+    target_poses[8].position = get_position_at(3, 1);
+    target_poses[9].position = get_position_at(4, 0);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_Y() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(6);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(1, 1);
+    target_poses[2].position = get_position_at(0, 2);
+    target_poses[3].position = get_position_at(1, 1);
+    target_poses[4].position = get_position_at(2, 1);
+    target_poses[5].position = get_position_at(4, 1);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::poses_Z() {
+    std::vector<geometry_msgs::Pose> target_poses;
+    target_poses.resize(9);
+
+    set_target_orientation(target_poses);
+    target_poses[0].position = get_position_at(0, 0);
+    target_poses[1].position = get_position_at(0, 2);
+    target_poses[2].position = get_position_at(0, 4);
+    target_poses[3].position = get_position_at(1, 3);
+    target_poses[4].position = get_position_at(2, 2);
+    target_poses[5].position = get_position_at(3, 1);
+    target_poses[6].position = get_position_at(4, 0);
+    target_poses[7].position = get_position_at(4, 2);
+    target_poses[8].position = get_position_at(4, 4);
+
+    return target_poses;
 }
 
 std::vector<geometry_msgs::Pose> LetterPoses::get_poses(char letter) {

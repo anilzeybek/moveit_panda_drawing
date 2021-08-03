@@ -142,7 +142,7 @@ int main(int argc, char **argv) {
     PandaRobot panda;
     panda.add_objects();
     panda.pick_pencil();
-    panda.draw('K');
+    panda.draw('Z');
     panda.place_pencil();
 
     return 0;
