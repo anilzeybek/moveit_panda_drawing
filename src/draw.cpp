@@ -72,7 +72,6 @@ public:
 
     void add_objects() {
         std::vector<moveit_msgs::CollisionObject> collision_objects;
-        collision_objects.resize(3);
 
         std::vector<double> dimensions{1, 1, 1};
         std::vector<double> positions{0, 1, 0};
@@ -143,7 +142,7 @@ int main(int argc, char **argv) {
     PandaRobot panda;
     panda.add_objects();
     panda.pick_pencil();
-    panda.draw('A');
+    panda.draw('K');
     panda.place_pencil();
 
     return 0;
