@@ -6,4 +6,4 @@ To simulate:
 3. roslaunch moveit_panda_drawing simulation.launch (to start gazebo)
 4. roslaunch panda_sim_moveit sim_move_group.launch (to start moveit server)
 5. roslaunch moveit_panda_drawing demo.launch (to start rviz)
-6. rosrun moveit_panda_drawing draw (to start drawing)
+6. rosrun moveit_panda_drawing main (to start drawing)
