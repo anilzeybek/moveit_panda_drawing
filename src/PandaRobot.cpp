@@ -12,6 +12,10 @@ void PandaRobot::close_gripper() {
     hand.move();
 }
 
+void PandaRobot::put_space() {
+
+}
+
 PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
     arm.setMaxVelocityScalingFactor(0.8);
     arm.setMaxAccelerationScalingFactor(0.8);
@@ -41,14 +45,6 @@ void PandaRobot::pick_pencil(geometry_msgs::Pose pencil_pose) {
     this->initial_pencil_pose = arm.getCurrentPose();
 }
 
-void PandaRobot::draw(char letter) {
-    auto target_poses = LetterPoses::get_poses(letter);
-    for (const auto &target : target_poses) {
-        arm.setPoseTarget(target);
-        arm.move();
-    }
-}
-
 void PandaRobot::place_pencil() {
     this->initial_pencil_pose.pose.position.z += 0.01;
     arm.setPoseTarget(this->initial_pencil_pose);
@@ -64,3 +60,23 @@ void PandaRobot::place_pencil() {
     close_gripper();
 }
 
+void PandaRobot::draw_letter(char letter) {
+    auto target_poses = LetterPoses::get_poses(letter);
+    for (const auto &target : target_poses) {
+        arm.setPoseTarget(target);
+        arm.move();
+    }
+}
+
+void PandaRobot::draw_word(std::string word) {
+
+}
+
+void PandaRobot::draw_sentence(std::string sentence) {
+
+}
+
+void PandaRobot::go_pose(geometry_msgs::Pose target) {
+    arm.setPoseTarget(target);
+    arm.move();
+}

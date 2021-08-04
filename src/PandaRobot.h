@@ -20,14 +20,22 @@ private:
 
     void close_gripper();
 
+    void put_space();
+
 public:
     PandaRobot();
 
+    void go_pose(geometry_msgs::Pose target);
+
     void pick_pencil(geometry_msgs::Pose pencil_pose);
 
-    void draw(char letter);
-
     void place_pencil();
+
+    void draw_letter(char letter);
+
+    void draw_word(std::string word);
+
+    void draw_sentence(std::string sentence);
 };
 
 #endif

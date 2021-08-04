@@ -4,7 +4,7 @@
 
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "panda_arm_pick_place");
+    ros::init(argc, argv, "moveit_panda_drawing");
     ros::AsyncSpinner spinner(1);
     spinner.start();
 
@@ -13,7 +13,7 @@ int main(int argc, char **argv) {
 
     env.add_objects();
     panda.pick_pencil(env.get_pencil_location());
-    panda.draw('Z');
+    panda.draw_letter('B');
     panda.place_pencil();
 
     return 0;
