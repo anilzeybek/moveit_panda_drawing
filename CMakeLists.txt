@@ -19,5 +19,5 @@ catkin_package(
  moveit_ros_planning_interface
 )
 
-add_executable(draw src/draw.cpp src/letter_poses.h src/letter_poses.cpp)
+add_executable(draw src/main.cpp src/LetterPoses.h src/LetterPoses.cpp src/PandaRobot.cpp src/PandaRobot.h src/Environment.cpp src/Environment.h)
 target_link_libraries(draw ${catkin_LIBRARIES})

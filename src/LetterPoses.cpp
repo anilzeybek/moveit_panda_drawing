@@ -1,4 +1,4 @@
-#include "letter_poses.h"
+#include "LetterPoses.h"
 #include <cctype>
 
 const float point_matrix[5][5][3] = {
