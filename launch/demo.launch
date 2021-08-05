@@ -30,7 +30,7 @@
   <!-- Run Rviz -->
     <rosparam command="load" file="$(find panda_moveit_config)/config/kinematics.yaml"/>
   <node name="$(anon rviz)" launch-prefix="$(arg launch_prefix)" pkg="rviz" type="rviz" respawn="false"
-    args="-d $(find franka_moveit)/config/moveit_demo.rviz" output="screen">
+    args="-d $(find moveit_panda_drawing)/config/moveit_demo.rviz" output="screen">
   </node>
 
   <!-- If database loading was enabled, start mongodb as well -->
