@@ -21,6 +21,8 @@ PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
 
     arm.setPlanningTime(3.0);
     arm.rememberJointValues("ready");
+
+    LetterPoses::generate_point_matrix();
 }
 
 void PandaRobot::pick_pencil(geometry_msgs::Pose pencil_pose) {
@@ -68,6 +70,10 @@ void PandaRobot::draw_letter(char letter) {
 }
 
 void PandaRobot::draw_word(std::string word) {
+    for(char& c : word) {
+        draw_letter(c);
+        LetterPoses::increase_x_index();
+    }
 }
 
 void PandaRobot::draw_sentence(std::string sentence) {

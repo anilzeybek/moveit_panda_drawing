@@ -5,6 +5,10 @@
 
 class LetterPoses {
 private:
+    static std::vector<std::vector<std::array<float, 3>>> point_matrix;
+
+    static int x_index, y_index;
+
     static void set_target_orientation(std::vector<geometry_msgs::Pose> &poses);
 
     static geometry_msgs::Point get_position_at(int i1, int i2);
@@ -62,6 +66,13 @@ private:
     static std::vector<geometry_msgs::Pose> poses_Z();
 
 public:
+    static void generate_point_matrix();
+
+    static void increase_x_index(int val = 3);
+    static void increase_y_index(int val = 3);
+    static void reset_x_index();
+    static void reset_y_index();
+
     static std::vector<geometry_msgs::Pose> get_poses(char letter);
 };
 
