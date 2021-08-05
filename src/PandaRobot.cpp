@@ -12,9 +12,6 @@ void PandaRobot::close_gripper() {
     hand.move();
 }
 
-void PandaRobot::put_space() {
-}
-
 PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
     arm.setMaxVelocityScalingFactor(0.8);
     arm.setMaxAccelerationScalingFactor(0.8);
@@ -33,7 +30,7 @@ PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
     line_strip.id = 0;
     line_strip.type = visualization_msgs::Marker::LINE_STRIP;
     line_strip.scale.x = 0.01;
-    line_strip.color.b = 1.0;
+    line_strip.color.g = 1.0;
     line_strip.color.a = 1.0;
 }
 
@@ -85,14 +82,14 @@ void PandaRobot::draw_letter(char letter) {
     }
 }
 
-void PandaRobot::draw_word(std::string word) {
-    for (char &c : word) {
+void PandaRobot::draw_word(const std::string& word) {
+    for (const char &c : word) {
         draw_letter(c);
         LetterPoses::increase_x_index();
     }
 }
 
-void PandaRobot::draw_sentence(std::string sentence) {
+void PandaRobot::draw_sentence(const std::string& sentence) {
 }
 
 void PandaRobot::go_pose(geometry_msgs::Pose target) {

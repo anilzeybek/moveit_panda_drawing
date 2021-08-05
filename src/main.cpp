@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 
     env.add_objects();
     panda.pick_pencil(env.get_pencil_location());
-    panda.draw_word("ABC");
+    panda.draw_word("AIRLAB");
     panda.place_pencil();
 
     return 0;

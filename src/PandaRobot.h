@@ -37,9 +37,9 @@ public:
 
     void draw_letter(char letter);
 
-    void draw_word(std::string word);
+    void draw_word(const std::string& word);
 
-    void draw_sentence(std::string sentence);
+    void draw_sentence(const std::string& sentence);
 };
 
 #endif
