@@ -13,7 +13,6 @@ void PandaRobot::close_gripper() {
 }
 
 void PandaRobot::put_space() {
-
 }
 
 PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
@@ -69,11 +68,9 @@ void PandaRobot::draw_letter(char letter) {
 }
 
 void PandaRobot::draw_word(std::string word) {
-
 }
 
 void PandaRobot::draw_sentence(std::string sentence) {
-
 }
 
 void PandaRobot::go_pose(geometry_msgs::Pose target) {

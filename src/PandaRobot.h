@@ -1,14 +1,13 @@
 #ifndef PANDAROBOT_H
 #define PANDAROBOT_H
 
-#include "LetterPoses.h"
 #include "Environment.h"
+#include "LetterPoses.h"
 #include <ros/ros.h>
 
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <trajectory_msgs/JointTrajectory.h>
-
 
 class PandaRobot {
 private:

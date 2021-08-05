@@ -3,7 +3,6 @@
 
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
-
 class LetterPoses {
 private:
     static void set_target_orientation(std::vector<geometry_msgs::Pose> &poses);

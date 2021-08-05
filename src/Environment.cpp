@@ -33,7 +33,6 @@ Environment::add_object(const std::string &name, int type, const std::vector<dou
     return object;
 }
 
-
 void Environment::add_objects() {
     std::vector<moveit_msgs::CollisionObject> collision_objects;
 

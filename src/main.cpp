@@ -1,7 +1,6 @@
-#include "PandaRobot.h"
 #include "Environment.h"
+#include "PandaRobot.h"
 #include <ros/ros.h>
-
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "moveit_panda_drawing");

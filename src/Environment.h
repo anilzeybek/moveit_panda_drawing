@@ -3,7 +3,6 @@
 
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 
-
 class Environment {
 private:
     moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
@@ -17,6 +16,5 @@ public:
 
     geometry_msgs::Pose get_pencil_location();
 };
-
 
 #endif
