@@ -8,12 +8,17 @@
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <moveit/planning_scene_interface/planning_scene_interface.h>
 #include <trajectory_msgs/JointTrajectory.h>
+#include <visualization_msgs/Marker.h>
 
 class PandaRobot {
 private:
     moveit::planning_interface::MoveGroupInterface arm;
     moveit::planning_interface::MoveGroupInterface hand;
     geometry_msgs::PoseStamped initial_pencil_pose;
+
+    ros::NodeHandle nh;
+    ros::Publisher marker_pub;
+    visualization_msgs::Marker line_strip;
 
     void open_gripper();
 

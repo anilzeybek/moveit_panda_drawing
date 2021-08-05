@@ -23,6 +23,18 @@ PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
     arm.rememberJointValues("ready");
 
     LetterPoses::generate_point_matrix();
+
+    marker_pub = nh.advertise<visualization_msgs::Marker>("visualization_marker", 10);
+    line_strip.header.frame_id = "panda_link0";
+    line_strip.header.stamp = ros::Time::now();
+    line_strip.ns = "line";
+    line_strip.action = visualization_msgs::Marker::ADD;
+    line_strip.pose.orientation.w = 1.0;
+    line_strip.id = 0;
+    line_strip.type = visualization_msgs::Marker::LINE_STRIP;
+    line_strip.scale.x = 0.01;
+    line_strip.color.b = 1.0;
+    line_strip.color.a = 1.0;
 }
 
 void PandaRobot::pick_pencil(geometry_msgs::Pose pencil_pose) {
@@ -66,11 +78,15 @@ void PandaRobot::draw_letter(char letter) {
     for (const auto &target : target_poses) {
         arm.setPoseTarget(target);
         arm.move();
+
+        line_strip.points.push_back(arm.getCurrentPose().pose.position);
+        if (line_strip.points.size() >= 2)
+            marker_pub.publish(line_strip);
     }
 }
 
 void PandaRobot::draw_word(std::string word) {
-    for(char& c : word) {
+    for (char &c : word) {
         draw_letter(c);
         LetterPoses::increase_x_index();
     }
