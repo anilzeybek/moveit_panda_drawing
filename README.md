@@ -1,5 +1,7 @@
 # moveit_panda_drawing
 
+Video: https://drive.google.com/file/d/1n9GwSBfWdlTY59WNZhWxDFojfeswAj_2/view?usp=sharing
+
 To simulate:
 1. Build the panda simulator: https://github.com/justagist/panda_simulator
    (follow the steps in that repo)
