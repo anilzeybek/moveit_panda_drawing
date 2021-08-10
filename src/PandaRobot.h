@@ -18,13 +18,15 @@ private:
 
     ros::NodeHandle nh;
     ros::Publisher marker_pub;
-    visualization_msgs::Marker line_strip;
+    std::vector<visualization_msgs::Marker> line_strips;
 
     void open_gripper();
 
     void close_gripper();
 
     void put_space();
+
+    void initialize_markers(const std::string& word);
 
 public:
     PandaRobot();
@@ -35,7 +37,7 @@ public:
 
     void place_pencil();
 
-    void draw_letter(char letter);
+    void draw_letter(char letter, visualization_msgs::Marker &line_strip);
 
     void draw_word(const std::string& word);
 

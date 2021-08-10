@@ -12,6 +12,26 @@ void PandaRobot::close_gripper() {
     hand.move();
 }
 
+void PandaRobot::initialize_markers(const std::string &word) {
+    for (int i = 0; i < word.size(); i++) {
+        visualization_msgs::Marker line_strip;
+
+        line_strip.header.frame_id = "panda_link0";
+        line_strip.header.stamp = ros::Time::now();
+        line_strip.ns = "line";
+        line_strip.action = visualization_msgs::Marker::ADD;
+        line_strip.pose.orientation.w = 1.0;
+        line_strip.id = i;
+        line_strip.type = visualization_msgs::Marker::LINE_STRIP;
+        line_strip.scale.x = 0.01;
+        line_strip.color.r = 1.0;
+        line_strip.color.a = 1.0;
+        line_strip.lifetime = ros::Duration(0);
+
+        line_strips.push_back(line_strip);
+    }
+}
+
 PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
     arm.setMaxVelocityScalingFactor(0.8);
     arm.setMaxAccelerationScalingFactor(0.8);
@@ -22,16 +42,6 @@ PandaRobot::PandaRobot() : arm("panda_arm"), hand("hand") {
     LetterPoses::generate_point_matrix();
 
     marker_pub = nh.advertise<visualization_msgs::Marker>("visualization_marker", 10);
-    line_strip.header.frame_id = "panda_link0";
-    line_strip.header.stamp = ros::Time::now();
-    line_strip.ns = "line";
-    line_strip.action = visualization_msgs::Marker::ADD;
-    line_strip.pose.orientation.w = 1.0;
-    line_strip.id = 0;
-    line_strip.type = visualization_msgs::Marker::LINE_STRIP;
-    line_strip.scale.x = 0.01;
-    line_strip.color.g = 1.0;
-    line_strip.color.a = 1.0;
 }
 
 void PandaRobot::pick_pencil(geometry_msgs::Pose pencil_pose) {
@@ -63,6 +73,15 @@ void PandaRobot::place_pencil() {
     ros::Duration(0.5).sleep();
     open_gripper();
     hand.detachObject("pencil");
+    
+    // z ekseni yukarı
+    std::vector<geometry_msgs::Pose> waypoints;
+    geometry_msgs::Pose w = arm.getCurrentPose().pose;
+    w.position.z += 0.02;
+
+    moveit_msgs::RobotTrajectory trajectory;
+    arm.computeCartesianPath(waypoints, 0.005, 0.000, trajectory);
+    arm.execute(trajectory);
 
     arm.setNamedTarget("ready");
     arm.move();
@@ -70,7 +89,7 @@ void PandaRobot::place_pencil() {
     close_gripper();
 }
 
-void PandaRobot::draw_letter(char letter) {
+void PandaRobot::draw_letter(char letter, visualization_msgs::Marker &line_strip) {
     auto target_poses = LetterPoses::get_poses(letter);
     for (const auto &target : target_poses) {
         arm.setPoseTarget(target);
@@ -82,14 +101,16 @@ void PandaRobot::draw_letter(char letter) {
     }
 }
 
-void PandaRobot::draw_word(const std::string& word) {
-    for (const char &c : word) {
-        draw_letter(c);
+void PandaRobot::draw_word(const std::string &word) {
+    initialize_markers(word);
+
+    for (int i = 0; i < word.size(); i++) {
+        draw_letter(word[i], line_strips[i]);
         LetterPoses::increase_x_index();
     }
 }
 
-void PandaRobot::draw_sentence(const std::string& sentence) {
+void PandaRobot::draw_sentence(const std::string &sentence) {
 }
 
 void PandaRobot::go_pose(geometry_msgs::Pose target) {
